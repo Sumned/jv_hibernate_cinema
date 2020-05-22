@@ -16,16 +16,16 @@ import javax.persistence.Table;
 public class MovieSession {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "show_time")
-    LocalDateTime showTime;
+    private LocalDateTime showTime;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    Movie movie;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    private Movie movie;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    CinemaHall cinemaHall;
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    private CinemaHall cinemaHall;
 
     public MovieSession() {
     }

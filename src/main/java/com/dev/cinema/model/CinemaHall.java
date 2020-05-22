@@ -12,13 +12,13 @@ import javax.persistence.Table;
 public class CinemaHall {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "capacity")
-    int capacity;
+    private int capacity;
 
     @Column(name = "description")
-    String description;
+    private String description;
 
     public CinemaHall() {
     }

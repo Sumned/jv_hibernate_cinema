@@ -16,8 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
-
-    private static Injector INJECTOR = Injector.getInstance("com.dev.cinema");
+    private static final Injector INJECTOR = Injector.getInstance("com.dev.cinema");
 
     public static void main(String[] args) {
         LOGGER.info("test");

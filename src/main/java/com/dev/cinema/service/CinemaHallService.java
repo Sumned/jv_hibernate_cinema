@@ -8,5 +8,3 @@ public interface CinemaHallService {
 
     List<CinemaHall> getAll();
 }
-
-

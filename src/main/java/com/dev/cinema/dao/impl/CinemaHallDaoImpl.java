@@ -15,7 +15,8 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public CinemaHall add(CinemaHall cinemaHall) {
         Transaction transaction = null;
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             transaction = session.beginTransaction();
             Long hallId = (Long) session.save(cinemaHall);
             transaction.commit();
@@ -25,19 +26,24 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert hall entity", e);
+            throw new DataProcessingException("Can't insert hall entity", e);
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public List<CinemaHall> getAll() {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
             CriteriaQuery<CinemaHall> criteriaQuery = session
                     .getCriteriaBuilder().createQuery(CinemaHall.class);
             criteriaQuery.from(CinemaHall.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all halls",e);
+        } finally {
+            session.close();
         }
     }
 }
