@@ -69,9 +69,8 @@ public class Main {
         user.setSalt(HashUtil.getSalt());
         user.setPassword(HashUtil.hashPassword("1234", user.getSalt()));
         UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
-        userService.add(user);
+        System.out.println(userService.add(user));
         System.out.println(userService.findByEmail("user@user.com"));
-
         AuthenticationService authenticationService
                 = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
         authenticationService.register("userFromService@user.com", "1234");
