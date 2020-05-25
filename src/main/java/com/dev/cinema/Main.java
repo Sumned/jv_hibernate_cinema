@@ -1,12 +1,17 @@
 package com.dev.cinema;
 
+import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.lib.Injector;
 import com.dev.cinema.model.CinemaHall;
 import com.dev.cinema.model.Movie;
 import com.dev.cinema.model.MovieSession;
+import com.dev.cinema.model.User;
+import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.UserService;
+import com.dev.cinema.util.HashUtil;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -18,7 +23,7 @@ public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
     private static final Injector INJECTOR = Injector.getInstance("com.dev.cinema");
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthenticationException {
         LOGGER.info("test");
         MovieService movieService = (MovieService) INJECTOR.getInstance(MovieService.class);
         Movie movie = new Movie();
@@ -58,6 +63,19 @@ public class Main {
         List<MovieSession> sessions = movieSessionService.findAvailableSessions(movie.getId(),
                 LocalDate.of(2020, 5, 22));
         sessions.forEach(System.out::println);
+        User user = new User();
+        user.setEmail("user@user.com");
+        user.setName("user1");
+        user.setSalt(HashUtil.getSalt());
+        user.setPassword(HashUtil.hashPassword("1234", user.getSalt()));
+        UserService userService = (UserService) INJECTOR.getInstance(UserService.class);
+        userService.add(user);
+        System.out.println(userService.findByEmail("user@user.com"));
+
+        AuthenticationService authenticationService
+                = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
+        authenticationService.register("userFromService@user.com", "1234");
+        System.out.println(authenticationService.login("userFromService@user.com", "1234"));
 
     }
 }
