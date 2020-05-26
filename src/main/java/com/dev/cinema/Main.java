@@ -81,10 +81,10 @@ public class Main {
         ShoppingCartService shoppingCartService =
                 (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
 
-        shoppingCartService.registerNewShoppingCart(user);
-        System.out.println(shoppingCartService.getByUser(user));
-        shoppingCartService.addSession(sessionOne, user);
-        ShoppingCart shoppingCart = shoppingCartService.getByUser(user);
+        User user2 = userService.findByEmail("userFromService@user.com").orElse(null);
+
+        shoppingCartService.addSession(sessionOne, user2);
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(user2);
         System.out.println(shoppingCart);
     }
 }

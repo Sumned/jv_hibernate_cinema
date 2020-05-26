@@ -5,6 +5,7 @@ import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.User;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +17,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Inject
     UserService userService;
+
+    @Inject
+    ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
@@ -35,6 +39,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setEmail(email);
         newUser.setSalt(HashUtil.getSalt());
         newUser.setPassword(HashUtil.hashPassword(password, newUser.getSalt()));
-        return userService.add(newUser);
+        newUser = userService.add(newUser);
+        shoppingCartService.registerNewShoppingCart(newUser);
+        return newUser;
     }
 }
