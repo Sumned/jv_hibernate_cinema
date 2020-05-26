@@ -1,5 +1,6 @@
 package com.dev.cinema.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +19,7 @@ public class ShoppingCart {
     private Long id;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    private List<Ticket> tickets;
+    private List<Ticket> tickets = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.PERSIST)
     private User user;
