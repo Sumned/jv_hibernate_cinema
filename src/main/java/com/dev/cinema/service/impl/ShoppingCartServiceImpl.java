@@ -2,7 +2,6 @@ package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.ShoppingCartDao;
 import com.dev.cinema.dao.TicketDao;
-import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.MovieSession;
@@ -15,10 +14,10 @@ import java.util.ArrayList;
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Inject
-    ShoppingCartDao shoppingCartDao;
+    private ShoppingCartDao shoppingCartDao;
 
     @Inject
-    TicketDao ticketDao;
+    private TicketDao ticketDao;
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
@@ -31,8 +30,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getByUser(User user) {
-        return shoppingCartDao.getByUser(user).orElseThrow(()
-                -> new DataProcessingException("Can't get shopping cart by user"));
+        return shoppingCartDao.getByUser(user);
     }
 
     @Override

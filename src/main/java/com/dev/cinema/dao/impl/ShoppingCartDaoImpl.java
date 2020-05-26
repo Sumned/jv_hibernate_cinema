@@ -6,7 +6,6 @@ import com.dev.cinema.lib.Dao;
 import com.dev.cinema.model.ShoppingCart;
 import com.dev.cinema.model.User;
 import com.dev.cinema.util.HibernateUtil;
-import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
@@ -33,15 +32,16 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     }
 
     @Override
-    public Optional<ShoppingCart> getByUser(User user) {
+    public ShoppingCart getByUser(User user) {
         Transaction transaction = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             transaction = session.beginTransaction();
             Query<ShoppingCart> query = session
-                    .createQuery("from ShoppingCart s where s.user = :user", ShoppingCart.class);
+                    .createQuery("select distinct s from ShoppingCart s left "
+                            + "join fetch s.tickets where s.user = :user", ShoppingCart.class);
             query.setParameter("user", user);
-            return query.uniqueResultOptional();
+            return query.uniqueResult();
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -68,6 +68,5 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
         } finally {
             session.close();
         }
-
     }
 }

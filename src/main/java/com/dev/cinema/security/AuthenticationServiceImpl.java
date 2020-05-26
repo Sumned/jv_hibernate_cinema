@@ -16,10 +16,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     @Inject
-    UserService userService;
+    private UserService userService;
 
     @Inject
-    ShoppingCartService shoppingCartService;
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
