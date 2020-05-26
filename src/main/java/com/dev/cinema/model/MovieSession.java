@@ -30,6 +30,12 @@ public class MovieSession {
     public MovieSession() {
     }
 
+    public MovieSession(LocalDateTime showTime, Movie movie, CinemaHall cinemaHall) {
+        this.showTime = showTime;
+        this.movie = movie;
+        this.cinemaHall = cinemaHall;
+    }
+
     public Long getId() {
         return id;
     }
@@ -64,8 +70,8 @@ public class MovieSession {
 
     @Override
     public String toString() {
-        return "MovieSession{" + "Id=" + id
-                + ", showTime=" + showTime + ", movie="
-                + movie + ", cinemaHall=" + cinemaHall + '}';
+        return "MovieSession{" + "id=" + id + ", showTime="
+                + showTime + ", movie=" + movie
+                + ", cinemaHall=" + cinemaHall + '}';
     }
 }
