@@ -11,6 +11,7 @@ import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.CinemaHallService;
 import com.dev.cinema.service.MovieService;
 import com.dev.cinema.service.MovieSessionService;
+import com.dev.cinema.service.OrderService;
 import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
@@ -86,5 +87,9 @@ public class Main {
         shoppingCartService.addSession(sessionOne, user2);
         ShoppingCart shoppingCart = shoppingCartService.getByUser(user2);
         System.out.println(shoppingCart);
+
+        OrderService orderService = (OrderService) INJECTOR.getInstance(OrderService.class);
+        System.out.println(orderService.completeOder(shoppingCart.getTickets(), user2));
+        System.out.println(orderService.getOrderHistory(user2));
     }
 }
