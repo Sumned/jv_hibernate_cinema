@@ -5,6 +5,7 @@ import com.dev.cinema.exceptions.AuthenticationException;
 import com.dev.cinema.lib.Inject;
 import com.dev.cinema.lib.Service;
 import com.dev.cinema.model.User;
+import com.dev.cinema.service.ShoppingCartService;
 import com.dev.cinema.service.UserService;
 import com.dev.cinema.util.HashUtil;
 import org.apache.logging.log4j.LogManager;
@@ -15,12 +16,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     @Inject
-    UserService userService;
+    private UserService userService;
+
+    @Inject
+    private ShoppingCartService shoppingCartService;
 
     @Override
     public User login(String email, String password) throws AuthenticationException {
         User userFromDB = userService.findByEmail(email)
-                .orElseThrow(() -> new AuthenticationException("Incorrect username or password"));;
+                .orElseThrow(() -> new AuthenticationException("Incorrect username or password"));
         if (userFromDB.getPassword()
                 .equals(HashUtil.hashPassword(password, userFromDB.getSalt()))) {
             LOGGER.info("user " + userFromDB.getName() + " login successful");
@@ -35,6 +39,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         newUser.setEmail(email);
         newUser.setSalt(HashUtil.getSalt());
         newUser.setPassword(HashUtil.hashPassword(password, newUser.getSalt()));
-        return userService.add(newUser);
+        newUser = userService.add(newUser);
+        shoppingCartService.registerNewShoppingCart(newUser);
+        return newUser;
     }
 }
