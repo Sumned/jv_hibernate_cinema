@@ -40,10 +40,6 @@ public class MovieSession {
         return id;
     }
 
-    public void setId(Long id) {
-        id = id;
-    }
-
     public LocalDateTime getShowTime() {
         return showTime;
     }

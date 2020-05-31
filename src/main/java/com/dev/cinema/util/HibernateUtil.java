@@ -14,7 +14,7 @@ public class HibernateUtil {
         try {
             return new Configuration().configure().buildSessionFactory();
         } catch (Exception e) {
-            throw new RuntimeException("Error creating Session", e); //add own exception
+            throw new RuntimeException("Error creating Session", e);
         }
     }
 
