@@ -6,9 +6,13 @@ addons:
   sonarcloud:
     organization: sumned
     token:
-      secure: "SA6txUuq6l5g0E+01nHvPxQccvLCgwpz5klbQVeTiQccidLlYTisMGpLuQmJGE1mpzpmmqHaijGwmSNbOtiYku3gVP6rZU0/fhnNhfz+OXm5JgIrkCd+mp2Cf9icUGjvP/dGx8pE74BZFk6+4+byoKM/fzBUQk0LOJxNTesCIX4j11Sqo/s4EwlUO1912RVSTmL7LG9b4zRZ+r3fcZeMT1w1YzYC1dL0NBUzGuRClYNglDQ51nfWQp/MrdU+44F4ElizNG/8M+LU7VHDgjetwnYp2yFOySwFbzZzu2MReMEHdTngchJS+ja9pT2O/rsksk5o5F3qTXvh1w+34a75s+GC5J+lNEKC55PZV5qA7Ykt7tmM98aAfmyx6KBOWHFaSnwVf0uU8i0s5l+WMQBGcP+VE+QfC0PgjJKbFB5JQveqa/DCEWIjyF6hnRpxsk8uRU3pd/v1qMCNy0NmYHnWuzKptluxCZK2x6qtyq+gRcznCkOU5EpkduB81wn4y/KErwdQs7cQutJfxz4MpN4Jq3obTF0k7Drp4qUCCn8D9lev1RlfGHc7rLcdV3F2aqbrYwQIff90xFbGsAx8WTQLOjiMXBB8MB4JOkSaLVVdkyzzJqee3KB350w3EKdI2I5CEfBAsQ9woWBKjDDiNL6zNWNXP4KQwDFBpUi4H8lEwO4="
+      secure: "u8JYww5j/YqpK40n8BB3RzmyOmDzzLki7LjvxmLqg4QlFvpqDxiaRpnO8CJPKrfc/5QjHQaazXO+diVJgKHBZbBmvEyK7i0qP/oyAwNpgABZbvU2g1AHMgqPe/HdRSAwPs1yy2eq0lYZueDAQYWRFPu0GFyFkaed5
+              6IR3Vkv3NXWJ5YdSCQcvDmkQixumU+TQuYbw7V0Q62J3UsjeKYAJGJg5S8pVsc7fQv0rgg0yAnLH3DdhYxfo7Ubn9vy/HGnsFdhvAC1TTd4iNKOk431+EkfH+uULF0juKoQfisMQAW8k2Zako0afE4l97NpiDjG5IexGDhhC11/Z
+              y23w0G8rXmN1KzHdV8K233sLbbbSBjM7TH1e81rB28DNezCmzTv26fajrgpxfXEqSKst0ayuDLAj/GL5KyIpTIWN0ojQYDtx6IT0MRy17wDBCqWl5BdQ5BL8+sOFC79eKno+UDRbifHetozB2LwWZoLpGRQVAQ7wtkOSs/33uqX4
+              /kPsAN5oT5r87/FENQi+5wI00C/OUYjUYfQl2wP3hSVrXUhv5Vb7rvPmtLflsb7H69qIuuNRYHnIZX3C+PEs6IljVyIz2GbMke7f2rjE0+/uYNus6MvbSULzPMT6m/R5Lj4luwa8dFIlPuvtoIWqe4Mc+xowD5ZmgMkiyWdr5hW/
+              s4jVN0="
 script:
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=318186f00130b19689d9e43d29641be7fbb6d487
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Sumned_jv_hibernate_cinema
 cache:
   directories:
   - "$HOME/.m2"
