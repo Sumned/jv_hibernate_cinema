@@ -8,7 +8,7 @@ addons:
     token:
       secure: SA6txUuq6l5g0E+01nHvPxQccvLCgwpz5klbQVeTiQccidLlYTisMGpLuQmJGE1mpzpmmqHaijGwmSNbOtiYku3gVP6rZU0/fhnNhfz+OXm5JgIrkCd+mp2Cf9icUGjvP/dGx8pE74BZFk6+4+byoKM/fzBUQk0LOJxNTesCIX4j11Sqo/s4EwlUO1912RVSTmL7LG9b4zRZ+r3fcZeMT1w1YzYC1dL0NBUzGuRClYNglDQ51nfWQp/MrdU+44F4ElizNG/8M+LU7VHDgjetwnYp2yFOySwFbzZzu2MReMEHdTngchJS+ja9pT2O/rsksk5o5F3qTXvh1w+34a75s+GC5J+lNEKC55PZV5qA7Ykt7tmM98aAfmyx6KBOWHFaSnwVf0uU8i0s5l+WMQBGcP+VE+QfC0PgjJKbFB5JQveqa/DCEWIjyF6hnRpxsk8uRU3pd/v1qMCNy0NmYHnWuzKptluxCZK2x6qtyq+gRcznCkOU5EpkduB81wn4y/KErwdQs7cQutJfxz4MpN4Jq3obTF0k7Drp4qUCCn8D9lev1RlfGHc7rLcdV3F2aqbrYwQIff90xFbGsAx8WTQLOjiMXBB8MB4JOkSaLVVdkyzzJqee3KB350w3EKdI2I5CEfBAsQ9woWBKjDDiNL6zNWNXP4KQwDFBpUi4H8lEwO4=
 script:
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.login=318186f00130b19689d9e43d29641be7fbb6d487
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar -Dsonar.projectKey=Sumned_jv_hibernate_cinema
 cache:
   directories:
   - "$HOME/.m2"
