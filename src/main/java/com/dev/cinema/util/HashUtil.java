@@ -1,5 +1,6 @@
 package com.dev.cinema.util;
 
+import com.dev.cinema.exceptions.DataProcessingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -8,6 +9,10 @@ import org.apache.logging.log4j.Logger;
 
 public class HashUtil {
     private static final Logger LOGGER = LogManager.getLogger(HashUtil.class);
+
+    private HashUtil() {
+
+    }
 
     public static byte[] getSalt() {
         SecureRandom random = new SecureRandom();
@@ -26,7 +31,7 @@ public class HashUtil {
                 hashedPassword.append(String.format("%02x", b));
             }
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Something went wrong", e);
+            throw new DataProcessingException("Something went wrong", e);
         }
         LOGGER.info("Password successful hashed");
         return hashedPassword.toString();
