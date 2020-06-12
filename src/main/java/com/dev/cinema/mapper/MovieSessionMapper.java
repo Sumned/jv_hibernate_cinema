@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MovieSessionMapper {
-    MovieService movie;
-    CinemaHallService cinemaHall;
-    MovieMapper movieMapper;
-    CinemaHallMapper cinemaHallMapper;
+    private MovieService movie;
+    private CinemaHallService cinemaHall;
+    private MovieMapper movieMapper;
+    private CinemaHallMapper cinemaHallMapper;
 
     public MovieSession getMovieSessionFromRequestDto(MovieSessionRequestDto requestDto) {
         MovieSession movieSession = new MovieSession();

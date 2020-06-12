@@ -42,31 +42,25 @@ public class MovieDaoImpl implements MovieDao {
 
     @Override
     public Optional<Movie> getById(Long id) {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             Query<Movie> query = session
                     .createQuery("from Movie m where m.id = :id", Movie.class);
             query.setParameter("id", id);
             return query.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies",e);
-        } finally {
-            session.close();
+            throw new DataProcessingException("Error retrieving all movies", e);
         }
     }
 
     @Override
     public List<Movie> getAll() {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<Movie> criteriaQuery = session
                     .getCriteriaBuilder().createQuery(Movie.class);
             criteriaQuery.from(Movie.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all movies",e);
-        } finally {
-            session.close();
+            throw new DataProcessingException("Error retrieving all movies", e);
         }
     }
 }

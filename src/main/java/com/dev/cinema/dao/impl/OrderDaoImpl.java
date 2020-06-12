@@ -41,8 +41,7 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public List<Order> getOrderHistory(User user) {
         Transaction transaction = null;
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Query<Order> query = session
                     .createQuery("from Order o left join fetch "
@@ -54,8 +53,6 @@ public class OrderDaoImpl implements OrderDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't get order history", e);
-        } finally {
-            session.close();
         }
     }
 }

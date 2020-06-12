@@ -12,8 +12,9 @@ public class OrderMapper {
         OrderResponseDto orderResponseDto = new OrderResponseDto();
         orderResponseDto.setOrderId(order.getId());
         orderResponseDto.setOrderDate(order.getOrderDate());
-        orderResponseDto.setTicketIds(order.getTickets()
-                .stream().map(Ticket::getId).collect(Collectors.toList()));
+        orderResponseDto.setTicketIds(order.getTickets().stream()
+                .map(Ticket::getId)
+                .collect(Collectors.toList()));
         orderResponseDto.setUserId(order.getUser().getId());
         return orderResponseDto;
     }

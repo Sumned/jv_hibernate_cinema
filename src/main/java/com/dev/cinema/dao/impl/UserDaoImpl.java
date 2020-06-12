@@ -40,8 +40,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Optional<User> getById(Long id) {
         Transaction transaction = null;
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Query<User> query = session
                     .createQuery("from User u where u.id = :id", User.class);
@@ -52,16 +51,13 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't find user by email", e);
-        } finally {
-            session.close();
         }
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         Transaction transaction = null;
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Query<User> query = session
                     .createQuery("from User u where u.email = :email", User.class);
@@ -72,8 +68,6 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't find user by email", e);
-        } finally {
-            session.close();
         }
     }
 }

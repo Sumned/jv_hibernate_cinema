@@ -41,31 +41,25 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
 
     @Override
     public Optional<CinemaHall> getById(Long id) {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             Query<CinemaHall> query = session
                     .createQuery("from CinemaHall c where c.id = :id", CinemaHall.class);
             query.setParameter("id", id);
             return query.uniqueResultOptional();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all halls",e);
-        } finally {
-            session.close();
+            throw new DataProcessingException("Error retrieving all halls", e);
         }
     }
 
     @Override
     public List<CinemaHall> getAll() {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<CinemaHall> criteriaQuery = session
                     .getCriteriaBuilder().createQuery(CinemaHall.class);
             criteriaQuery.from(CinemaHall.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all halls",e);
-        } finally {
-            session.close();
+            throw new DataProcessingException("Error retrieving all halls", e);
         }
     }
 }

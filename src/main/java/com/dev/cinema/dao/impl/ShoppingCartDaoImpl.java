@@ -40,8 +40,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
     @Override
     public ShoppingCart getByUser(User user) {
         Transaction transaction = null;
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             Query<ShoppingCart> query = session
                     .createQuery("select distinct s from ShoppingCart s left "
@@ -53,8 +52,6 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao {
                 transaction.rollback();
             }
             throw new DataProcessingException("Can't get shopping cart by user_id", e);
-        } finally {
-            session.close();
         }
     }
 
