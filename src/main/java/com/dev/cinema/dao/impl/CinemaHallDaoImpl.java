@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -42,10 +41,7 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     @Override
     public Optional<CinemaHall> getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<CinemaHall> query = session
-                    .createQuery("from CinemaHall c where c.id = :id", CinemaHall.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            return Optional.ofNullable(session.get(CinemaHall.class, id));
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all halls", e);
         }

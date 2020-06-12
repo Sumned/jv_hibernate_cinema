@@ -13,7 +13,6 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -60,17 +59,9 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
 
     @Override
     public Optional<MovieSession> getById(Long id) {
-        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Query<MovieSession> query = session
-                    .createQuery("from MovieSession m where m.id = :id", MovieSession.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            return Optional.ofNullable(session.get(MovieSession.class, id));
         } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
             throw new DataProcessingException("Can't find user by email", e);
         }
     }

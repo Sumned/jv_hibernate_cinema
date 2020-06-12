@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -43,10 +42,7 @@ public class MovieDaoImpl implements MovieDao {
     @Override
     public Optional<Movie> getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            Query<Movie> query = session
-                    .createQuery("from Movie m where m.id = :id", Movie.class);
-            query.setParameter("id", id);
-            return query.uniqueResultOptional();
+            return Optional.ofNullable(session.get(Movie.class, id));
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movies", e);
         }
