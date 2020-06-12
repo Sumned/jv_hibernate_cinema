@@ -1,0 +1,44 @@
+package com.dev.cinema.controller.movie;
+
+import com.dev.cinema.mapper.MovieMapper;
+import com.dev.cinema.model.dto.movie.MovieRequestDto;
+import com.dev.cinema.model.dto.movie.MovieResponseDto;
+import com.dev.cinema.service.MovieService;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping(value = "/movies")
+public class MovieController {
+    private static final Logger LOGGER =
+            LogManager.getLogger(MovieController.class);
+    private MovieMapper movieMapper;
+    private MovieService movieService;
+
+    public MovieController(MovieMapper movieMapper, MovieService movieService) {
+        this.movieMapper = movieMapper;
+        this.movieService = movieService;
+    }
+
+    @PostMapping
+    public String addMovie(@RequestBody MovieRequestDto requestDto) {
+        LOGGER.info(requestDto.toString());
+        movieService.add(movieMapper.getMovieFromRequestDto(requestDto));
+        return "Movie added";
+    }
+
+    @GetMapping
+    public List<MovieResponseDto> getAll() {
+        return movieService.getAll().stream()
+                .map(movie -> movieMapper
+                        .getMovieResponseDto(movie))
+                .collect(Collectors.toList());
+    }
+}

@@ -38,6 +38,26 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
+    public Optional<User> getById(Long id) {
+        Transaction transaction = null;
+        Session session = sessionFactory.openSession();
+        try {
+            transaction = session.beginTransaction();
+            Query<User> query = session
+                    .createQuery("from User u where u.id = :id", User.class);
+            query.setParameter("id", id);
+            return query.uniqueResultOptional();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't find user by email", e);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
     public Optional<User> findByEmail(String email) {
         Transaction transaction = null;
         Session session = sessionFactory.openSession();

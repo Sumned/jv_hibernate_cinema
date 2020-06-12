@@ -1,6 +1,7 @@
 package com.dev.cinema.service.impl;
 
 import com.dev.cinema.dao.UserDao;
+import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.User;
 import com.dev.cinema.service.UserService;
 import java.util.Optional;
@@ -17,6 +18,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User add(User user) {
         return userDao.add(user);
+    }
+
+    @Override
+    public User getById(Long id) {
+        return userDao.getById(id)
+                .orElseThrow(() -> new DataProcessingException("Can't get movie by id"));
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.MovieSession;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -51,6 +53,26 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
             throw new DataProcessingException("Error retrieving all movie session",e);
+        } finally {
+            session.close();
+        }
+    }
+
+    @Override
+    public Optional<MovieSession> getById(Long id) {
+        Transaction transaction = null;
+        Session session = sessionFactory.openSession();
+        try {
+            transaction = session.beginTransaction();
+            Query<MovieSession> query = session
+                    .createQuery("from MovieSession m where m.id = :id", MovieSession.class);
+            query.setParameter("id", id);
+            return query.uniqueResultOptional();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new DataProcessingException("Can't find user by email", e);
         } finally {
             session.close();
         }

@@ -4,10 +4,12 @@ import com.dev.cinema.dao.MovieDao;
 import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.Movie;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,6 +38,21 @@ public class MovieDaoImpl implements MovieDao {
             session.close();
         }
 
+    }
+
+    @Override
+    public Optional<Movie> getById(Long id) {
+        Session session = sessionFactory.openSession();
+        try {
+            Query<Movie> query = session
+                    .createQuery("from Movie m where m.id = :id", Movie.class);
+            query.setParameter("id", id);
+            return query.uniqueResultOptional();
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving all movies",e);
+        } finally {
+            session.close();
+        }
     }
 
     @Override
