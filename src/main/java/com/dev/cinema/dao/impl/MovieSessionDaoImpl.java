@@ -5,6 +5,7 @@ import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.MovieSession;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -57,9 +58,17 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
+    public Optional<MovieSession> getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(MovieSession.class, id));
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find user by email", e);
+        }
+    }
+
+    @Override
     public List<MovieSession> findAvailableSessions(Long movieId, LocalDate date) {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<MovieSession> criteriaQuery = criteriaBuilder
                     .createQuery(MovieSession.class);
@@ -72,8 +81,6 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
         } catch (Exception e) {
             throw new DataProcessingException("Can't get movie sessions of movie with id "
                     + movieId, e);
-        } finally {
-            session.close();
         }
     }
 }

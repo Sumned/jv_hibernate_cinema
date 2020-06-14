@@ -4,6 +4,7 @@ import com.dev.cinema.dao.CinemaHallDao;
 import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.CinemaHall;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -38,17 +39,23 @@ public class CinemaHallDaoImpl implements CinemaHallDao {
     }
 
     @Override
+    public Optional<CinemaHall> getById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return Optional.ofNullable(session.get(CinemaHall.class, id));
+        } catch (Exception e) {
+            throw new DataProcessingException("Error retrieving all halls", e);
+        }
+    }
+
+    @Override
     public List<CinemaHall> getAll() {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<CinemaHall> criteriaQuery = session
                     .getCriteriaBuilder().createQuery(CinemaHall.class);
             criteriaQuery.from(CinemaHall.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException("Error retrieving all halls",e);
-        } finally {
-            session.close();
+            throw new DataProcessingException("Error retrieving all halls", e);
         }
     }
 }
