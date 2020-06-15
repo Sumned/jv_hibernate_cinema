@@ -13,6 +13,7 @@
 <h3><a href="/movie-sessions">Movie Sessions</a> </h3>
 <h3><a href="/users/inject">Inject users</a> </h3>
 <h3><a href="/users/by-email?email=user@user.com">Get user by email</a> </h3>
+<h3><a href="/logout">Exit</a> </h3>
 <h2>Enter Movie Details</h2>
 <table>
     <tr>
