@@ -17,11 +17,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
         authentication
                 .inMemoryAuthentication()
-                .withUser("admin")
+                .withUser("admin@user.com")
                 .password(getEncoder().encode("admin"))
                 .roles("USER");
     }
 
+    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()

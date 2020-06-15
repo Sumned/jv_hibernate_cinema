@@ -6,6 +6,7 @@ import com.dev.cinema.model.dto.cinemahall.CinemaHallResponseDto;
 import com.dev.cinema.service.CinemaHallService;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class CinemaHallController {
     private static final Logger LOGGER =
             LogManager.getLogger(CinemaHallController.class);
-    private CinemaHallMapper cinemaHallMapper;
-    private CinemaHallService cinemaHallService;
+    private final CinemaHallMapper cinemaHallMapper;
+    private final CinemaHallService cinemaHallService;
 
     public CinemaHallController(CinemaHallMapper cinemaHallMapper,
                                 CinemaHallService cinemaHallService) {
@@ -29,7 +30,7 @@ public class CinemaHallController {
     }
 
     @PostMapping
-    public String addHall(@RequestBody CinemaHallRequestDto requestDto) {
+    public String addHall(@RequestBody @Valid CinemaHallRequestDto requestDto) {
         LOGGER.info(requestDto.toString());
         cinemaHallService.add(cinemaHallMapper.getCinemaHallFromRequestDto(requestDto));
         return "Hall added";
@@ -38,7 +39,7 @@ public class CinemaHallController {
     @GetMapping
     public List<CinemaHallResponseDto> getAll() {
         return cinemaHallService.getAll().stream()
-                .map(cinemaHall -> cinemaHallMapper.getCinemaHallResponseDto(cinemaHall))
+                .map(cinemaHallMapper::getCinemaHallResponseDto)
                 .collect(Collectors.toList());
     }
 }
