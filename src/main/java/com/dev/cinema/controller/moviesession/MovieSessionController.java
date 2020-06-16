@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,7 +35,7 @@ public class MovieSessionController {
     }
 
     @PostMapping
-    public String addSession(@RequestBody MovieSessionRequestDto requestDto) {
+    public String addSession(@RequestBody @Valid MovieSessionRequestDto requestDto) {
         LOGGER.info(requestDto.toString());
         movieSessionMapper.getMovieSessionFromRequestDto(requestDto);
         return "Movie session added";

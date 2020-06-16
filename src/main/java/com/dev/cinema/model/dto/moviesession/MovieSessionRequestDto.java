@@ -1,8 +1,10 @@
 package com.dev.cinema.model.dto.moviesession;
 
 import java.time.LocalDateTime;
+import javax.validation.constraints.PastOrPresent;
 
 public class MovieSessionRequestDto {
+    @PastOrPresent
     private LocalDateTime showTime;
     private Long movieId;
     private Long hallId;

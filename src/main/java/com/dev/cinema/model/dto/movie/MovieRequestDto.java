@@ -1,7 +1,15 @@
 package com.dev.cinema.model.dto.movie;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class MovieRequestDto {
+    @NotNull
+    @Size(max = 256)
     private String title;
+
+    @NotNull
+    @Size(max = 256)
     private String description;
 
     public MovieRequestDto() {
