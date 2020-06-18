@@ -7,7 +7,6 @@
 </head>
 <body>
 <h1>test page</h1>
-<h3><a href="/hello">hello</a> </h3>
 <h3><a href="/movies">All movies</a> </h3>
 <h3><a href="/halls">All cinema halls</a> </h3>
 <h3><a href="/movie-sessions">Movie Sessions</a> </h3>

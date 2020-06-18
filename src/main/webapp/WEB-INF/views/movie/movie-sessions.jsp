@@ -7,6 +7,7 @@
 </head>
 <body>
 <h3><a href="/movie-sessions/available?movieId=1&date=12.06.2020">Movie Session available at 12.06.2020</a> </h3>
+<h3><a href="/movie-sessions/get-all">All movie session</a> </h3>
 <table>
     <tr>
         <td>show time</td>

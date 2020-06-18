@@ -39,7 +39,6 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public Optional<User> getById(Long id) {
-        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             return Optional.ofNullable(session.get(User.class, id));
         } catch (Exception e) {

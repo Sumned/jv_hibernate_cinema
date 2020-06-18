@@ -35,7 +35,6 @@ public class MovieSessionMapper {
         movieSession.setShowTime(LocalDateTime.parse(requestDto.getShowTime()));
         movieSession.setCinemaHall(cinemaHall.getById(requestDto.getHallId()));
         movieSession.setMovie(movie.getById(requestDto.getMovieId()));
-        LOGGER.info("MovieSession mapping finished");
         LOGGER.info(movieSession.toString());
         return movieSession;
     }

@@ -6,6 +6,7 @@ import com.dev.cinema.model.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -34,5 +35,18 @@ public class RoleDaoImpl implements RoleDao {
             session.close();
         }
 
+    }
+
+    @Override
+    public Role getByName(String roleName) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Role> query = session
+                    .createQuery("from Role r "
+                            + " where r.roleName =: roleName", Role.class);
+            query.setParameter("roleName", Role.RoleName.valueOf(roleName));
+            return query.uniqueResult();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't find role by name", e);
+        }
     }
 }

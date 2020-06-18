@@ -1,7 +1,5 @@
 package com.dev.cinema.config;
 
-import com.dev.cinema.model.Role;
-import com.dev.cinema.model.User;
 import com.dev.cinema.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,12 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
-        LOGGER.info("try to create user");
-        User user = new User("admin@user.com", getEncoder().encode("admin"));
-        user.addRoles(Role.of("ADMIN"));
-        user.addRoles(Role.of("USER"));
-        userService.add(user);
-        LOGGER.info("User created");
         authentication
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(getEncoder());
@@ -47,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/registration", "/login").permitAll()
+                .antMatchers("/registration", "/inject").permitAll()
                 .antMatchers(HttpMethod.POST,"/orders/complete", "/shopping-carts/")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/cinema-halls/", "/movies/",
@@ -60,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/login")
                 .permitAll()
                 .and()
                 .httpBasic()

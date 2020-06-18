@@ -23,8 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class MovieSessionController {
     private static final Logger LOGGER =
             LogManager.getLogger(MovieSessionController.class);
-    MovieSessionMapper movieSessionMapper;
-    MovieSessionService movieSessionService;
+    private final MovieSessionMapper movieSessionMapper;
+    private final MovieSessionService movieSessionService;
 
     public MovieSessionController(MovieSessionMapper movieSessionMapper,
                                   MovieSessionService movieSessionService) {
@@ -43,9 +43,16 @@ public class MovieSessionController {
     public String addSession(@RequestBody MovieSessionRequestDto requestDto) {
         LOGGER.info(requestDto.toString());
         LOGGER.info("try to send dto");
-        movieSessionMapper.getMovieSessionFromRequestDto(requestDto);
+        movieSessionService.add(movieSessionMapper.getMovieSessionFromRequestDto(requestDto));
         LOGGER.info("Done");
         return "Movie session added";
+    }
+
+    @GetMapping(value = "/get-all")
+    public List<MovieSessionResponseDto> getAll() {
+        return movieSessionService.getAll().stream()
+                .map(movieSessionMapper::getMovieSessionResponseDto)
+                .collect(Collectors.toList());
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
@@ -53,8 +60,7 @@ public class MovieSessionController {
     public List<MovieSessionResponseDto> getAvailableSession(@RequestParam Long movieId,
                                                              @RequestParam LocalDate date) {
         return movieSessionService.findAvailableSessions(movieId, date)
-                .stream().map(movieSession -> movieSessionMapper
-                        .getMovieSessionResponseDto(movieSession))
+                .stream().map(movieSessionMapper::getMovieSessionResponseDto)
                 .collect(Collectors.toList());
     }
 }
