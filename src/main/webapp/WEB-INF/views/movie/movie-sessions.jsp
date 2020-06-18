@@ -10,7 +10,10 @@
 <table>
     <tr>
         <td>show time</td>
-        <td><input type="date" id="showTime"></td>
+        <td><input type="datetime-local" id="showTime"
+                   name="showTime"
+                   min="2020-06-12T00:00"
+                   max="2020-07-12T00:00"></td>
     </tr>
     <tr>
         <td>movie id</td>

@@ -26,6 +26,11 @@ public class MovieSessionController {
     MovieSessionMapper movieSessionMapper;
     MovieSessionService movieSessionService;
 
+    public MovieSessionController(MovieSessionMapper movieSessionMapper, MovieSessionService movieSessionService) {
+        this.movieSessionMapper = movieSessionMapper;
+        this.movieSessionService = movieSessionService;
+    }
+
     @GetMapping
     public ModelAndView movieSessions() {
         ModelAndView modelAndView = new ModelAndView();
@@ -36,7 +41,9 @@ public class MovieSessionController {
     @PostMapping
     public String addSession(@RequestBody MovieSessionRequestDto requestDto) {
         LOGGER.info(requestDto.toString());
+        LOGGER.info("try to send dto");
         movieSessionMapper.getMovieSessionFromRequestDto(requestDto);
+        LOGGER.info("Done");
         return "Movie session added";
     }
 
