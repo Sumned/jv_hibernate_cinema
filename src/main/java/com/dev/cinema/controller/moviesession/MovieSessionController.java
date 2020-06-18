@@ -26,7 +26,8 @@ public class MovieSessionController {
     MovieSessionMapper movieSessionMapper;
     MovieSessionService movieSessionService;
 
-    public MovieSessionController(MovieSessionMapper movieSessionMapper, MovieSessionService movieSessionService) {
+    public MovieSessionController(MovieSessionMapper movieSessionMapper,
+                                  MovieSessionService movieSessionService) {
         this.movieSessionMapper = movieSessionMapper;
         this.movieSessionService = movieSessionService;
     }

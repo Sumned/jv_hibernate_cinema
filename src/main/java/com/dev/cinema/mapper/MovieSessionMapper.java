@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MovieSessionMapper {
     private static final Logger LOGGER =
-            LogManager.getLogger( MovieSessionMapper.class);
+            LogManager.getLogger(MovieSessionMapper.class);
     private final MovieService movie;
     private final CinemaHallService cinemaHall;
     private final MovieMapper movieMapper;
