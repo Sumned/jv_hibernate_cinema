@@ -1,39 +1,70 @@
 package com.dev.cinema.config;
 
+import com.dev.cinema.model.Role;
+import com.dev.cinema.model.User;
+import com.dev.cinema.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final Logger LOGGER =
+            LogManager.getLogger(SecurityConfig.class);
+    private final UserDetailsService userDetailsService;
+    private final UserService userService;
+
+    public SecurityConfig(UserDetailsService userDetailsService, UserService userService) {
+        this.userDetailsService = userDetailsService;
+        this.userService = userService;
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
+        LOGGER.info("try to create user");
+        User user = new User("admin@user.com", getEncoder().encode("admin"));
+        user.addRoles(Role.of("ADMIN"));
+        user.addRoles(Role.of("USER"));
+        userService.add(user);
+        LOGGER.info("User created");
         authentication
-                .inMemoryAuthentication()
-                .withUser("admin@user.com")
-                .password(getEncoder().encode("admin"))
-                .roles("USER");
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(getEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
+                .antMatchers("/registration", "/login").permitAll()
+                .antMatchers(HttpMethod.POST,"/orders/complete", "/shopping-carts/")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/cinema-halls/", "/movies/",
+                        "/movie-sessions/")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/by-email", "/hello", "/movies",
+                        "/cinema-halls", "/shopping-carts", "/movie-sessions/available", "/orders")
+                .hasAnyRole("USER", "ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin().permitAll()
+                .formLogin()
+                .permitAll()
                 .and()
                 .httpBasic()
                 .and()
-                .logout().logoutUrl("/logout")
+                .logout().permitAll().logoutUrl("/logout").logoutSuccessUrl("/login")
                 .and()
                 .csrf().disable();
     }

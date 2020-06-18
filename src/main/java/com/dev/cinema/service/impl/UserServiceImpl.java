@@ -1,5 +1,6 @@
 package com.dev.cinema.service.impl;
 
+import com.dev.cinema.dao.RoleDao;
 import com.dev.cinema.dao.UserDao;
 import com.dev.cinema.exceptions.DataProcessingException;
 import com.dev.cinema.model.User;
@@ -9,14 +10,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
+    private final UserDao userDao;
+    private final RoleDao roleDao;
 
-    public UserServiceImpl(UserDao userDao) {
+    public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
         this.userDao = userDao;
+        this.roleDao = roleDao;
     }
 
     @Override
     public User add(User user) {
+        user.getRoles().forEach(roleDao::add);
         return userDao.add(user);
     }
 

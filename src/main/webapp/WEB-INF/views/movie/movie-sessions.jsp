@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<!DOCTYPE html>
 <head>
     <title>Movie Sessions</title>
     <script src="http://code.jquery.com/jquery-2.2.4.js"></script>
@@ -13,11 +14,11 @@
     </tr>
     <tr>
         <td>movie id</td>
-        <td><input type="text" id="movieId"></td>
+        <td><input type="number" id="movieId"></td>
     </tr>
     <tr>
         <td>hall id</td>
-        <td><input type="text" id="hallId"></td>
+        <td><input type="number" id="hallId"></td>
     </tr>
     <tr>
         <td colspan="2"><input type="button" id="submit" value="Submit" /></td>
@@ -41,8 +42,11 @@
                 url : "movie-sessions",
                 data : JSON.stringify(movieSessionData),
                 dataType : 'json',
-                success : function(movieSessionData) {
-                    $('#processedData').html(JSON.stringify(movieSessionData));
+                error: function() {
+                    alert(movieSessionData.keys() + " error");
+                },
+                success : function(data) {
+                    $('#processedData').html(JSON.stringify(data));
                     $('#displayDiv').show();
                 }
             });
