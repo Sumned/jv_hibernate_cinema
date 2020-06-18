@@ -7,8 +7,6 @@ import com.dev.cinema.service.CinemaHallService;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/halls")
 public class CinemaHallController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(CinemaHallController.class);
     private final CinemaHallMapper cinemaHallMapper;
     private final CinemaHallService cinemaHallService;
 
@@ -31,7 +27,6 @@ public class CinemaHallController {
 
     @PostMapping
     public String addHall(@RequestBody @Valid CinemaHallRequestDto requestDto) {
-        LOGGER.info(requestDto.toString());
         cinemaHallService.add(cinemaHallMapper.getCinemaHallFromRequestDto(requestDto));
         return "Hall added";
     }

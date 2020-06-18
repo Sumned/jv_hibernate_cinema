@@ -1,6 +1,6 @@
 <%@ taglib prefix="th" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
+<!DOCTYPE html>
 <head>
     <title>Login</title>
     <head>

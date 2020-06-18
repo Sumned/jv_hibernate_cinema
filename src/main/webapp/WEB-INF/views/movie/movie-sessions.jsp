@@ -47,7 +47,7 @@
                 data : JSON.stringify(movieSessionData),
                 dataType : 'json',
                 error: function() {
-                    alert(movieSessionData.keys() + " error");
+                    console.log(movieSessionData.keys() + " error");
                 },
                 success : function(data) {
                     $('#processedData').html(JSON.stringify(data));
