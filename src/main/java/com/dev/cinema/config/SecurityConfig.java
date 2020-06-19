@@ -1,8 +1,5 @@
 package com.dev.cinema.config;
 
-import com.dev.cinema.service.UserService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private static final Logger LOGGER =
-            LogManager.getLogger(SecurityConfig.class);
     private final UserDetailsService userDetailsService;
-    private final UserService userService;
 
-    public SecurityConfig(UserDetailsService userDetailsService, UserService userService) {
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
-        this.userService = userService;
     }
 
     @Autowired
@@ -39,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers("/registration", "/inject").permitAll()
+                .antMatchers("/registration").permitAll()
                 .antMatchers(HttpMethod.POST,"/orders/complete", "/shopping-carts/")
                 .hasRole("USER")
                 .antMatchers(HttpMethod.POST, "/cinema-halls/", "/movies/",

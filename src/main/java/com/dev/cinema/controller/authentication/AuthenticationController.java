@@ -31,11 +31,8 @@ public class AuthenticationController {
 
     @PostMapping
     public String register(@RequestBody UserRequestDto requestDto) {
-        if (requestDto.getPassword().equals(requestDto.getRepeatPassword())) {
-            authenticationService.register(userMapper
-                    .getUserFromRequestDto(requestDto));
-            return "Registration successful";
-        }
-        return "Registration failed";
+        authenticationService.register(userMapper
+                .getUserFromRequestDto(requestDto));
+        return "Registration successful";
     }
 }

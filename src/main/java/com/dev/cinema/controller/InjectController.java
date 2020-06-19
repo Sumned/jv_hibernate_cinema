@@ -4,14 +4,12 @@ import com.dev.cinema.model.Role;
 import com.dev.cinema.model.User;
 import com.dev.cinema.security.AuthenticationService;
 import com.dev.cinema.service.RoleService;
+import javax.annotation.PostConstruct;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/inject")
 public class InjectController {
     private static final Logger LOGGER =
             LogManager.getLogger(InjectController.class);
@@ -24,8 +22,8 @@ public class InjectController {
         this.authenticationService = authenticationService;
     }
 
-    @GetMapping
-    public void injection() {
+    @PostConstruct
+    public void injectData() {
         LOGGER.info("injection");
         roleService.add(Role.of("ADMIN"));
         roleService.add(Role.of("USER"));
