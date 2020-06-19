@@ -1,13 +1,14 @@
 package com.dev.cinema.model.dto.cinemahall;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 public class CinemaHallRequestDto {
-    @Positive
-    @Size(min = 1, max = 100)
-    private int capacity;
+    @Min(value = 10, message = "Minimal size is 10")
+    @Max(value = 100, message = "Maximal size is 100")
+    private Integer capacity;
 
     @NotNull
     @Size(max = 256)
@@ -16,16 +17,16 @@ public class CinemaHallRequestDto {
     public CinemaHallRequestDto() {
     }
 
-    public CinemaHallRequestDto(int capacity, String description) {
+    public CinemaHallRequestDto(Integer capacity, String description) {
         this.capacity = capacity;
         this.description = description;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

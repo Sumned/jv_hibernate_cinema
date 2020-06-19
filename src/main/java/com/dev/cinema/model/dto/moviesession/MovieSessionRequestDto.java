@@ -1,28 +1,24 @@
 package com.dev.cinema.model.dto.moviesession;
 
-import java.time.LocalDateTime;
-import javax.validation.constraints.PastOrPresent;
-
 public class MovieSessionRequestDto {
-    @PastOrPresent
-    private LocalDateTime showTime;
+    private String showTime;
     private Long movieId;
     private Long hallId;
 
     public MovieSessionRequestDto() {
     }
 
-    public MovieSessionRequestDto(LocalDateTime showTime, Long movieId, Long hallId) {
+    public MovieSessionRequestDto(String showTime, Long movieId, Long hallId) {
         this.showTime = showTime;
         this.movieId = movieId;
         this.hallId = hallId;
     }
 
-    public LocalDateTime getShowTime() {
+    public String getShowTime() {
         return showTime;
     }
 
-    public void setShowTime(LocalDateTime showTime) {
+    public void setShowTime(String showTime) {
         this.showTime = showTime;
     }
 

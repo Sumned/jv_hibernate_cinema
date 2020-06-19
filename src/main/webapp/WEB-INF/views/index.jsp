@@ -7,11 +7,9 @@
 </head>
 <body>
 <h1>test page</h1>
-<h3><a href="/hello">hello</a> </h3>
 <h3><a href="/movies">All movies</a> </h3>
 <h3><a href="/halls">All cinema halls</a> </h3>
 <h3><a href="/movie-sessions">Movie Sessions</a> </h3>
-<h3><a href="/users/inject">Inject users</a> </h3>
 <h3><a href="/users/by-email">Get user by email</a> </h3>
 <h3><a href="/logout">Exit</a> </h3>
 <h2>Enter Movie Details</h2>

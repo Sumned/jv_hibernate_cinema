@@ -3,37 +3,54 @@ package com.dev.cinema.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private final UserDetailsService userDetailsService;
+
+    public SecurityConfig(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
+
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authentication) throws Exception {
         authentication
-                .inMemoryAuthentication()
-                .withUser("admin@user.com")
-                .password(getEncoder().encode("admin"))
-                .roles("USER");
+                .userDetailsService(userDetailsService)
+                .passwordEncoder(getEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
+                .antMatchers("/registration").permitAll()
+                .antMatchers(HttpMethod.POST,"/orders/complete", "/shopping-carts/")
+                .hasRole("USER")
+                .antMatchers(HttpMethod.POST, "/cinema-halls/", "/movies/",
+                        "/movie-sessions/")
+                .hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/users/by-email", "/hello", "/movies",
+                        "/cinema-halls", "/shopping-carts", "/movie-sessions/available", "/orders")
+                .hasAnyRole("USER", "ADMIN")
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin().permitAll()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
                 .and()
                 .httpBasic()
                 .and()
-                .logout().logoutUrl("/logout")
+                .logout().permitAll().logoutUrl("/logout").logoutSuccessUrl("/login")
                 .and()
                 .csrf().disable();
     }

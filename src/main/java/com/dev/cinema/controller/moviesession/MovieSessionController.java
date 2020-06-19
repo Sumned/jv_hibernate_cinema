@@ -8,9 +8,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping(value = "/movie-sessions")
 public class MovieSessionController {
-    private static final Logger LOGGER =
-            LogManager.getLogger(MovieSessionController.class);
-    MovieSessionMapper movieSessionMapper;
-    MovieSessionService movieSessionService;
+    private final MovieSessionMapper movieSessionMapper;
+    private final MovieSessionService movieSessionService;
+
+    public MovieSessionController(MovieSessionMapper movieSessionMapper,
+                                  MovieSessionService movieSessionService) {
+        this.movieSessionMapper = movieSessionMapper;
+        this.movieSessionService = movieSessionService;
+    }
 
     @GetMapping
     public ModelAndView movieSessions() {
@@ -35,10 +36,16 @@ public class MovieSessionController {
     }
 
     @PostMapping
-    public String addSession(@RequestBody @Valid MovieSessionRequestDto requestDto) {
-        LOGGER.info(requestDto.toString());
-        movieSessionMapper.getMovieSessionFromRequestDto(requestDto);
+    public String addSession(@RequestBody MovieSessionRequestDto requestDto) {
+        movieSessionService.add(movieSessionMapper.getMovieSessionFromRequestDto(requestDto));
         return "Movie session added";
+    }
+
+    @GetMapping(value = "/get-all")
+    public List<MovieSessionResponseDto> getAll() {
+        return movieSessionService.getAll().stream()
+                .map(movieSessionMapper::getMovieSessionResponseDto)
+                .collect(Collectors.toList());
     }
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
@@ -46,8 +53,7 @@ public class MovieSessionController {
     public List<MovieSessionResponseDto> getAvailableSession(@RequestParam Long movieId,
                                                              @RequestParam LocalDate date) {
         return movieSessionService.findAvailableSessions(movieId, date)
-                .stream().map(movieSession -> movieSessionMapper
-                        .getMovieSessionResponseDto(movieSession))
+                .stream().map(movieSessionMapper::getMovieSessionResponseDto)
                 .collect(Collectors.toList());
     }
 }

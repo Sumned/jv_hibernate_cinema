@@ -15,7 +15,7 @@ public class CinemaHall {
     private Long id;
 
     @Column(name = "capacity")
-    private int capacity;
+    private Integer capacity;
 
     @Column(name = "description")
     private String description;
@@ -23,7 +23,7 @@ public class CinemaHall {
     public CinemaHall() {
     }
 
-    public CinemaHall(int capacity, String description) {
+    public CinemaHall(Integer capacity, String description) {
         this.capacity = capacity;
         this.description = description;
     }
@@ -36,11 +36,11 @@ public class CinemaHall {
         this.id = id;
     }
 
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

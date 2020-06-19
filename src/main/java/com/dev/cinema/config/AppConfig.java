@@ -17,7 +17,6 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "com.dev.cinema.service",
         "com.dev.cinema.security",
         "com.dev.cinema.mapper",
-        "com.dev.cinema.util"
 })
 public class AppConfig {
     private final Environment env;
